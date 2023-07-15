@@ -1,6 +1,6 @@
 #!/bin/bash
 
-latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
+latest_release="master"
 git clone --single-branch -b ${latest_release} https://github.com/openwrt/openwrt openwrt
 git clone --single-branch -b openwrt-23.05 https://github.com/openwrt/openwrt openwrt_snap
 find openwrt/package/* -maxdepth 0 ! -name 'firmware' ! -name 'kernel' ! -name 'base-files' ! -name 'Makefile' -exec rm -rf {} +

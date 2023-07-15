@@ -10,8 +10,8 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 # 移除 SNAPSHOT 标签
-sed -i 's,-SNAPSHOT,,g' include/version.mk
-sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+# sed -i 's,-SNAPSHOT,,g' include/version.mk
+# sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 # 维多利亚的秘密
 #rm -rf ./scripts/download.pl
 #rm -rf ./include/download.mk
@@ -301,11 +301,6 @@ cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
 sed -i 's,iptables-legacy,iptables-nft,g' Makefile
 popd
-wget -P package/new/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
-chmod -R 755 ./package/new/luci-app-passwall/move_2_services.sh
-pushd package/new/luci-app-passwall
-bash move_2_services.sh
-popd
 cp -rf ../passwall_pkg/tcping ./package/new/tcping
 cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
 cp -rf ../passwall_pkg/brook ./package/new/brook
@@ -316,20 +311,6 @@ cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
 cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
 cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
 cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
-# Passwall 白名单
-echo '
-teamviewer.com
-epicgames.com
-dangdang.com
-account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn
-' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # qBittorrent 下载
 cp -rf ../lede_luci/applications/luci-app-qbittorrent ./package/new/luci-app-qbittorrent
 cp -rf ../lede_pkg/net/qBittorrent-static ./package/new/qBittorrent-static
@@ -428,11 +409,6 @@ git clone -b master --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon.gi
 git clone --depth 1 https://github.com/kiddin9/luci-app-xlnetacc.git package/lean/luci-app-xlnetacc
 # Zerotier
 cp -rf ../immortalwrt_luci/applications/luci-app-zerotier ./feeds/luci/applications/luci-app-zerotier
-cp -rf ../OpenWrt-Add/move_2_services.sh ./feeds/luci/applications/luci-app-zerotier/move_2_services.sh
-chmod -R 755 ./feeds/luci/applications/luci-app-zerotier/move_2_services.sh
-pushd feeds/luci/applications/luci-app-zerotier
-bash move_2_services.sh
-popd
 ln -sf ../../../feeds/luci/applications/luci-app-zerotier ./package/feeds/luci/luci-app-zerotier
 rm -rf ./feeds/packages/net/zerotier
 cp -rf ../immortalwrt_pkg/net/zerotier ./feeds/packages/net/zerotier
@@ -441,6 +417,12 @@ echo > ./feeds/packages/utils/watchcat/files/watchcat.config
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
+# mwan3
+rm -rf ./feeds/packages/net/mwan3
+rm -rf ./feeds/luci/applications/luci-app-mwan3
+cp -rf ../immortalwrt_pkg/net/mwan3 ./feeds/packages/net/mwan3
+cp -rf ../immortalwrt_luci/applications/luci-app-mwan3 ./feeds/luci/applications/luci-app-mwan3
+cp -rf ../immortalwrt_luci/applications/luci-app-mwan3helper ./feeds/luci/applications/luci-app-mwan3helper
 
 ### 最后的收尾工作 ###
 # Lets Fuck
