@@ -5,6 +5,11 @@ on:
 #    - cron: 5 6 * * 0
   watch:
     types: started
+  push:
+    paths:
+      - '.github/workflows/CR6608-OpenWrt.yml'
+      - 'SCRIPTS/CR6608/02_target_only.sh'
+      - 'SEEDS/CR6608/config.seed'
 
 jobs:
   build:
